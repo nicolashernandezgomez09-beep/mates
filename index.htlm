@@ -1,0 +1,235 @@
+# <!-- PEGA ESTO ANTES DE </body> -->
+
+<!-- LOGIN ADMIN -->
+
+<div id="adminPanel" style="
+position:fixed;
+top:20px;
+right:20px;
+z-index:999999;
+">
+
+<button onclick="mostrarLogin()">
+👑 Admin
+</button>
+
+</div>
+
+<div id="loginBox" style="
+display:none;
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:#10232e;
+padding:30px;
+border-radius:20px;
+z-index:9999999;
+text-align:center;
+box-shadow:0 0 20px #00e5ff;
+">
+
+<h2>Login Admin</h2>
+
+<input
+id="adminUser"
+placeholder="Usuario"
+style="
+padding:12px;
+margin:10px;
+border:none;
+border-radius:10px;
+width:220px;
+">
+
+<br>
+
+<input
+id="adminPass"
+type="password"
+placeholder="Contraseña"
+style="
+padding:12px;
+margin:10px;
+border:none;
+border-radius:10px;
+width:220px;
+">
+
+<br><br>
+
+<button onclick="loginAdmin()">
+Entrar
+</button>
+
+</div>
+
+<!-- RANKING -->
+
+<div id="ranking" style="
+position:fixed;
+bottom:20px;
+right:20px;
+background:rgba(0,0,0,.8);
+padding:20px;
+border-radius:20px;
+z-index:9999;
+box-shadow:0 0 15px #00e5ff;
+">
+
+<h3 style="margin-bottom:10px;">
+🏆 Ranking
+</h3>
+
+<p>
+Récord:
+<span id="recordGlobal">0</span>
+</p>
+
+</div>
+
+<script>
+
+/* LOGIN */
+
+function mostrarLogin(){
+
+document.getElementById("loginBox")
+.style.display = "block";
+
+}
+
+function loginAdmin(){
+
+let user =
+document.getElementById("adminUser")
+.value;
+
+let pass =
+document.getElementById("adminPass")
+.value;
+
+/* CAMBIA ESTO */
+
+if(
+user == "admin" &&
+pass == "1234"
+){
+
+alert("✅ Bienvenido Admin");
+
+document.body.style.border =
+"5px solid #00e5ff";
+
+}
+else{
+
+alert("❌ Datos incorrectos");
+
+}
+
+}
+
+/* GUARDAR PROGRESO */
+
+let progreso =
+localStorage.getItem("progresoMath");
+
+if(progreso){
+
+puntos = Number(progreso);
+
+document.getElementById("puntos")
+.innerText = puntos;
+
+}
+
+/* GUARDAR AUTOMATICO */
+
+setInterval(()=>{
+
+localStorage.setItem(
+"progresoMath",
+puntos
+);
+
+},1000);
+
+/* RANKING */
+
+let global =
+localStorage.getItem("rankingGlobal")
+|| 0;
+
+document.getElementById("recordGlobal")
+.innerText = global;
+
+/* PREGUNTAS INFINITAS */
+
+function generarPreguntaInfinita(){
+
+let tipos = [
+"Perímetros y áreas",
+"Pitágoras",
+"Números enteros",
+"Fracciones"
+];
+
+let random =
+tipos[
+Math.floor(Math.random()*tipos.length)
+];
+
+mostrarProblema(random);
+
+}
+
+/* APP CELULAR */
+
+if(
+/Android|iPhone|iPad|iPod/i
+.test(navigator.userAgent)
+){
+
+alert("📱 Modo celular activado");
+
+document.body.style.zoom = "95%";
+
+}
+
+/* ACTUALIZAR RECORD */
+
+function actualizarRanking(){
+
+if(puntos > global){
+
+localStorage.setItem(
+"rankingGlobal",
+puntos
+);
+
+document.getElementById("recordGlobal")
+.innerText = puntos;
+
+}
+
+}
+
+/* MODIFICA TU verificar() */
+
+/*
+ANTES DE cerrarJuego();
+
+AGREGA:
+
+actualizarRanking();
+
+Y TAMBIEN:
+
+setTimeout(()=>{
+generarPreguntaInfinita();
+},1500);
+
+*/
+
+</script>
